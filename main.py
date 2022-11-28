@@ -1,7 +1,8 @@
 # content from kids can code: http://kidscancode.org/blog/
 # guides from w3schools python tutorial
 # import libraries and modules
-# help from Eric and Mark
+# tkinter loading screen https://www.youtube.com/watch?v=7MX-9blU0S8
+
 
 
 
@@ -11,6 +12,8 @@
 # add code where when each player hits a mob, another one spawns
 # add competition goal, first to hit #points wins
 # add ID to player, "P1" and "P2" to respective player
+
+# Final Project
 # add a starting screen
 # add a sounds for each player, so that you can differentiate who hits a mob
 
@@ -21,6 +24,9 @@ import random
 from random import randint
 import os
 from os import path
+from tkinter import *
+from tkinter.ttk import *
+
 
 vec = pg.math.Vector2
 
@@ -56,6 +62,36 @@ RED = (255, 0, 0)
 GREEN = (0, 255, 0)
 BLUE2 = (0, 255, 255)
 BLUE = (0, 0, 255)
+
+tk=Tk()
+load=Progressbar(tk,orient=HORIZONTAL,length=200,mode="determinate")
+
+def bar():
+    import time
+    load['value']=20
+    tk.update_idletasks()
+    time.sleep(1)
+    load['value']=50
+    tk.update_idletasks()
+    time.sleep(1)
+    load['value']=100
+    tk.update_idletasks()
+    time.sleep(1)
+    load['value']=150
+    tk.update_idletasks()
+    time.sleep(1)
+    load['value']=170
+    tk.update_idletasks()
+    time.sleep(1)
+    load['value']=200
+    tk.update_idletasks()
+    time.sleep(1)
+
+
+load.pack()
+Button(tk,text='START',command=bar).pack()
+mainloop()
+
 
 
 def colorbyte():
