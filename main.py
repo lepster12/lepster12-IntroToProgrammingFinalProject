@@ -1,10 +1,8 @@
 # content from kids can code: http://kidscancode.org/blog/
 # guides from w3schools python tutorial
 # import libraries and modules
-# tkinter loading screen https://www.youtube.com/watch?v=7MX-9blU0S8
-
-
-
+# tkinter loader screen https://www.pythontutorial.net/tkinter/tkinter-progressbar/
+# arrow keys for movement https://www.codespeedy.com/movement-of-object-when-arrow-keys-are-pressed-in-pygame/
 
 # GOALS
 # Create another class with Player 2
@@ -26,6 +24,11 @@ import os
 from os import path
 from tkinter import *
 from tkinter.ttk import *
+from tkinter import * 
+from tkinter.messagebox import showinfo
+from tkinter import ttk
+import tkinter as tk
+from tkinter import messagebox
 
 
 vec = pg.math.Vector2
@@ -35,19 +38,20 @@ vec = pg.math.Vector2
 # Images = os.path.join(Computer_Science, 'images')
 
 # game settings 
-WIDTH = 1450
-HEIGHT = 875
+WIDTH = 600
+HEIGHT = 475
 FPS = 30
 
 # player settings
 PLAYER_FRIC = -0.1
 PLAYER_GRAV = .9875
 POINTS = 0 
+TIME = 10
 
 PLAYER2_FRIC = -0.1
 PLAYER2_GRAV =.9875
 POINTS2 = 0
-GOAL = 1000 #set goal that when reached ends game; "player beats other player"
+GOAL = 250 #set goal that when reached ends game; "player beats other player"
 CONTROLS = "Player1 Controls."
 CONTROLS2 = "Player2 Controls."
 ID1 = "Player1"
@@ -62,36 +66,102 @@ RED = (255, 0, 0)
 GREEN = (0, 255, 0)
 BLUE2 = (0, 255, 255)
 BLUE = (0, 0, 255)
+Backgroundimage = 'back_image'
+Backgroundimage == ("C:\\Users\\J.Lepe23\\OneDrive - Bellarmine College Preparatory\\Computer_Science\\Final_Project_Images\\Zombie_Apoc_Background.png")
 
-tk=Tk()
-load=Progressbar(tk,orient=HORIZONTAL,length=200,mode="determinate")
-
-def bar():
-    import time
-    load['value']=20
-    tk.update_idletasks()
-    time.sleep(1)
-    load['value']=50
-    tk.update_idletasks()
-    time.sleep(1)
-    load['value']=100
-    tk.update_idletasks()
-    time.sleep(1)
-    load['value']=150
-    tk.update_idletasks()
-    time.sleep(1)
-    load['value']=170
-    tk.update_idletasks()
-    time.sleep(1)
-    load['value']=200
-    tk.update_idletasks()
-    time.sleep(1)
+'''
+root = tk.Tk()
+root.geometry('300x120')
+root.title('Progressbar: Press')
 
 
-load.pack()
-Button(tk,text='START',command=bar).pack()
-mainloop()
+def update_progress_label():
+    return f"Current Progress: {pb['value']}%"
 
+
+def progress():
+    if pb['value'] < 100:
+        pb['value'] += 25
+        value_label['text'] = update_progress_label()
+    else:
+        showinfo(message='The progress completed!')
+    if pb['value'] == 100:
+        root.quit() # if the progress bar reaches 100% then the window closes
+
+
+def stop():
+    pb.stop()
+    value_label['text'] = update_progress_label()
+
+
+# progressbar
+pb = ttk.Progressbar(
+    root,
+    orient='horizontal',
+    mode='determinate',
+    length=280
+)
+# coordinates to place the progressbar
+pb.grid(column=0, row=0, columnspan=2, padx=10, pady=20)
+
+# label
+value_label = ttk.Label(root, text=update_progress_label())
+value_label.grid(column=0, row=1, columnspan=2)
+
+# shows start button and gives command to progress, moves
+start_button = ttk.Button(
+    root,
+    text='Progress',
+    command=progress
+)
+start_button.grid(column=0, row=2, padx=10, pady=10, sticky=tk.E)
+
+stop_button = ttk.Button(
+    root,
+    text='Stop',
+    command=stop
+)
+stop_button.grid(column=1, row=2, padx=10, pady=10, sticky=tk.W)
+
+
+root.mainloop()
+
+# if 'value' == '100%':
+#     root.quit()
+'''
+'''
+X = 600
+Y = 475
+ 
+# create the display surface object
+# of specific dimension..e(X, Y).
+scrn = pg.display.set_mode((X, Y))
+ 
+# set the pygame window name
+pg.display.set_caption('image')
+ 
+# create a surface object, image is drawn on it.
+imp = pg.image.load("C:\\Users\\J.Lepe23\\OneDrive - Bellarmine College Preparatory\\Computer_Science\\Final_Project_Images\\Zombie_Apoc_Background.png").convert()
+
+ 
+# Using blit to copy content from one surface to other
+scrn.blit(imp, (0, 0))
+ 
+# paint screen one time
+pg.display.flip()
+status = True
+while (status):
+ 
+  # iterate over the list of Event objects
+  # that was returned by pygame.event.get() method.
+    for i in pg.event.get():
+ 
+        # if event object type is QUIT
+        # then quitting the pygame
+        # and program both.
+        if i.type == pg.QUIT:
+            status = False
+'''
 
 
 def colorbyte():
@@ -100,6 +170,7 @@ def colorbyte():
 # # images
 # background = pg.image.load(path.join(Images, 'ocean'))
 # background_rect = background.get_rect()
+
 
 def draw_text(text, size, color, x, y):
         font_name = pg.font.match_font('arial')
@@ -124,13 +195,13 @@ class Player(Sprite): #player 1 settings
     def controls(self):
         keys = pg.key.get_pressed()
         if keys[pg.K_a]:
-            self.acc.x = -2 #controls where exactly player goes if key is pressed. If this was 2, then it would go the opposite dirreciton of pressed key
+            self.acc.x = -5 #controls where exactly player goes if key is pressed. If this was 2, then it would go the opposite dirreciton of pressed key
         if keys[pg.K_d]:
-            self.acc.x = 2 #same as above, if this was -2, it would go in opposite direction of where key is pressed
+            self.acc.x = 5 #same as above, if this was -2, it would go in opposite direction of where key is pressed
         if keys[pg.K_w]:
-            self.acc.y = -2
+            self.acc.y = -5
         if keys[pg.K_s]:
-            self.acc.y = 2 #controls for player, WASD
+            self.acc.y = 5 #controls for player, WASD
     def jump(self):
         hits = pg.sprite.spritecollide(self, all_platforms, False)
         if hits:
@@ -163,19 +234,19 @@ class Player2(Sprite): #class of palyer 2, what adds player 2
         self2.acc = vec(0,0)
     def controls(self2):
         keys = pg.key.get_pressed()
-        if keys[pg.K_j]:
-            self2.acc.x = -2
-        if keys[pg.K_l]:
-            self2.acc.x = 2
-        if keys[pg.K_i]:
-            self2.acc.y = -2
-        if keys[pg.K_k]:
-            self2.acc.y = 2 
+        if keys[pg.K_LEFT]:
+            self2.acc.x = -5
+        if keys[pg.K_RIGHT]:
+            self2.acc.x = 5
+        if keys[pg.K_UP]:
+            self2.acc.y = -5
+        if keys[pg.K_DOWN]:
+            self2.acc.y = 5
     def jump(self2):
         hits = pg.sprite.spritecollide(self2, all_platforms, False)
         if hits:
             print("i've collided...")
-            self2.vel.y = -20
+            self2.vel.y = -40
     def update(self2):
         self2.acc = vec(0,0)
         self2.controls()
@@ -210,7 +281,7 @@ class Mob(Sprite): #class of mob
         self.rect = self.image.get_rect()
         self.rect.x = x
         self.rect.y = y
-        self.speed = 4 # speed of mobs
+        self.speed = 10 # speed of mobs
         self.speed2 = 1
       
     def update(self):
@@ -265,7 +336,7 @@ all_sprites.add(plat)
 all_platforms.add(plat)
 #all_platforms.add(plat1)
 
-for i in range(50): # number of mods that are spawned with the game when it opens
+for i in range(10): # number of mods that are spawned with the game when it opens
     # instantiate mob class repeatedly
     m = Mob(randint(0, WIDTH), randint(0,HEIGHT), 25, 25, (randint(0,255), randint(0,255) , randint(0,255)))
     all_sprites.add(m)
@@ -273,6 +344,7 @@ for i in range(50): # number of mods that are spawned with the game when it open
 print(mobs)
 # Game loop
 running = True
+wins = False
 while running:
     # keep the loop running using clock
     dt = clock.tick(FPS)
@@ -293,7 +365,7 @@ while running:
         print(POINTS)
         print("i've collided...with a mob")
         print(mobhits[0].color)
-    all_sprites.update()
+
     # if mobhits:
         # HEALTH -= 1
         # print ("You gained a health point")    # touching a mob takes a health point
@@ -308,8 +380,8 @@ while running:
         m = Mob(randint(0,WIDTH), randint(0,HEIGHT), 25, 25, (colorbyte(),colorbyte(),colorbyte()))
         all_sprites.add(m)
         mobs.add(m)      # every time a player hits a mob, a new one spawns
-    if POINTS == GOAL:
-        break #if GOAL # is met, game ends and player wins
+    # if POINTS == GOAL:
+    #     break #if GOAL # is met, game ends and player wins
         
     # if mobhits:
     #     YAY += 1
@@ -323,14 +395,18 @@ while running:
         print(POINTS2)
         print("i've collided...with a mob")
         print(mobhits[0].color)
-    all_sprites.update()
+    
     # if mobhits:
     if mobhits:
         m = Mob(randint(0,WIDTH), randint(0,HEIGHT), 25, 25, (colorbyte(),colorbyte(),colorbyte()))
         all_sprites.add(m)
         mobs.add(m)
-    if POINTS2 == GOAL:
-        break
+    if POINTS2 <= GOAL and POINTS <= GOAL:
+        all_sprites.update()
+    else:
+        wins = True
+    
+    
         
  #all same code as above player rules and game rules
 
@@ -340,7 +416,7 @@ while running:
     # screen.fill(BLACK)
     # screen.blit(background, background_rect)
 
-    screen.fill(BLACK)
+    screen.fill('back_image')
     # draw all sprites
     all_sprites.draw(screen)
     draw_text("POINTS p1: " + str(POINTS), 22, GREEN, WIDTH / 2, HEIGHT / 15) #draws text, which is made possible by defining draw_text
@@ -349,6 +425,12 @@ while running:
     draw_text("WASD: " + str(CONTROLS), 22, GREEN, WIDTH / 8, HEIGHT / 50)
     draw_text("IJKL: " + str(CONTROLS2), 22, BLUE2, WIDTH / 8, HEIGHT / 10)
     # draw_text("HEALTH: " + str(HEALTH), 15, WHITE, WIDTH / 2, HEIGHT / 10)
+
+    if wins == True:
+        if POINTS2 >= GOAL:
+            draw_text("P2 WINS", 144, WHITE, WIDTH / 2, HEIGHT / 2)
+        if POINTS >= GOAL:
+            draw_text("P1 WINS", 144, WHITE, WIDTH / 2, HEIGHT / 2)
     
 
     # draw_text("FPS: " + str(dt), 22, WHITE, WIDTH / 2, HEIGHT / 24)
@@ -356,5 +438,6 @@ while running:
 
     # buffer - after drawing everything, flip display
     pg.display.flip()
+
 
 pg.quit()
