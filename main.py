@@ -4,6 +4,7 @@
 # tkinter loader screen https://www.pythontutorial.net/tkinter/tkinter-progressbar/
 # arrow keys for movement https://www.codespeedy.com/movement-of-object-when-arrow-keys-are-pressed-in-pygame/
 # figured out background image from copying from https://bcpsj-my.sharepoint.com/personal/ccozort_bcp_org/_layouts/15/onedrive.aspx?ga=1&id=%2Fpersonal%2Fccozort%5Fbcp%5Forg%2FDocuments%2FDocuments%2F000%5FIntro%20to%20Programming%2F2022%5FFall%2FCode%2Fper1game%2Fmain%5Fside%2Epy&parent=%2Fpersonal%2Fccozort%5Fbcp%5Forg%2FDocuments%2FDocuments%2F000%5FIntro%20to%20Programming%2F2022%5FFall%2FCode%2Fper1game
+# text code for welcome message in game https://stackoverflow.com/questions/52856030/how-to-fade-in-and-out-a-text-in-pygame
 
 # GOALS
 # Create another class with Player 2
@@ -30,7 +31,10 @@ from tkinter.messagebox import showinfo
 from tkinter import ttk
 import tkinter as tk
 from tkinter import messagebox
-
+import time
+from time import sleep
+import sys
+import pygame as pg1
 
 
 vec = pg.math.Vector2
@@ -73,13 +77,18 @@ BLUE2 = (0, 255, 255)
 BLUE = (0, 0, 255)
 SAND = (139, 131, 120)
 
+# start moving text
+line_1 = "You've been abandoned by your country..."
+line_2 = "Your current mission is to survive and make it back home..."
+line_3 = "Good luck soldier. God Speed."
+
 # images
 background = pg.image.load(path.join(Final_Project_Images, 'Space_Background.png'))
 background_rect = background.get_rect()
-# FighterJet = pg.image.load(path.join(Final_Project_Images, 'fighter_jet_not.png'))
-# FighterJet_rect = background.get_rect()
-# FighterJet.set_colorkey(SAND)
-# FighterJet = pg.transform.scale(FighterJet, (10,10))
+FighterJet = pg.image.load(path.join(Final_Project_Images, 'fighter_jet_not.png'))
+FighterJet_rect = background.get_rect()
+FighterJet.set_colorkey(SAND)
+FighterJet = pg.transform.scale(FighterJet, (10,10))
 
 # theBell = pg.image.load(path.join(img_folder, 'theBell.png'))
 # theBell_rect = background.get_rect()
@@ -110,7 +119,7 @@ background = pg.image.load(path.join(Final_Project_Images, 'Zombie_Apoc_Backgrou
 background_rect = background.get_rect()
 '''
 
-
+'''
 root = tk.Tk()
 root.geometry('300x120')
 root.title('Progressbar: Press')
@@ -166,12 +175,71 @@ stop_button.grid(column=1, row=2, padx=10, pady=10, sticky=tk.W)
 
 
 root.mainloop()
-
+'''
 # if 'value' == '100%':
 #     root.quit()
 
 
 
+def start_text():
+    clock1 = pg.time.Clock()
+    clock2 = pg.time.Clock()
+    clock3 = pg.time.Clock()
+    screen = pg.display.set_mode((1350, 480))
+    font = pg.font.Font(None, 64)
+    blue = pg.Color('red')
+    orig_surf = font.render("You've been abandoned by your country.", True, blue)
+    txt_surf = orig_surf.copy()
+    orig_surf1 = font.render("Your current mission is to survive and make it back home.", True, blue)
+    txt_surf1 = orig_surf1.copy()
+    orig_surf2 = font.render("Good luck soldier. God Speed.", True, blue)
+    txt_surf2 = orig_surf2.copy()
+
+    # This surface is used to adjust the alpha of the txt_surf.
+    alpha_surf = pg1.Surface(txt_surf.get_size(), pg1.SRCALPHA)
+    alpha = 255  # The current alpha value of the surface.
+
+
+    while True:
+        for event in pg1.event.get():
+            if event.type == pg1.QUIT:
+                return
+
+        if alpha > 0:
+            # Reduce alpha each frame, but make sure it doesn't get below 0.
+            alpha = max(alpha-4, 0)
+            txt_surf = orig_surf.copy()  # Don't modify the original text surf.
+            txt_surf1 = orig_surf1.copy()
+            txt_surf2 = orig_surf2.copy()
+            # Fill alpha_surf with this color to set its alpha value.
+            alpha_surf.fill((255, 255, 255, alpha))
+            # To make the text surface transparent, blit the transparent
+            # alpha_surf onto it with the BLEND_RGBA_MULT flag.
+            txt_surf.blit(alpha_surf, (0, 0), special_flags=pg1.BLEND_RGBA_MULT)
+
+        screen.fill((30, 30, 30))
+        screen.blit(txt_surf, (30, 60))
+        pg1.display.flip()
+        clock1.tick(100)
+        
+        screen.fill((30, 30, 30))
+        screen.blit(txt_surf1, (30, 120))
+        pg1.display.flip()
+        clock2.tick(15)
+        
+        screen.fill((30, 30, 30))
+        screen.blit(txt_surf2, (30, 180))
+        pg1.display.flip()
+        clock3.tick(15)
+
+    
+if __name__ == '__main__':
+    pg1.init()
+    start_text()
+    pg1.quit()
+
+
+time.sleep(.4) #stops going through the code for .2 second. Gives second window time to load up
 
 def colorbyte():
     return random.randint(0,255) #defined for add mob in line #233
@@ -193,7 +261,7 @@ def draw_text(text, size, color, x, y):
 class Player(Sprite): #player 1 settings
     def __init__(self):
         Sprite.__init__(self)
-        self.image = pg.Surface((15, 15))
+        self.image = pg.Surface((20, 20))
         # self.image.set_colorkey(SAND)
         # self.image.fill(GREEN) #color of player
         # self.image.fill("ID1")
@@ -215,7 +283,7 @@ class Player(Sprite): #player 1 settings
     def jump(self):
         hits = pg.sprite.spritecollide(self, all_platforms, False)
         if hits:
-            print("i've collided...")
+            # print("i've collided...")
             self.vel.y = -20
     def update(self):
         self.acc = vec(0,0) # controls set velocity from very begining, will move at #m/s for x or y axis for which is changed
@@ -236,7 +304,7 @@ class Player(Sprite): #player 1 settings
 class Player2(Sprite): #class of palyer 2, what adds player 2
     def __init__(self2):
         Sprite.__init__(self2)
-        self2.image = pg.Surface((15, 15))
+        self2.image = pg.Surface((20, 20))
         self2.image.fill(BLUE2)# color of player2
         self2.rect = self2.image.get_rect()
         self2.rect.center = (WIDTH/2, HEIGHT/2) #
@@ -256,7 +324,7 @@ class Player2(Sprite): #class of palyer 2, what adds player 2
     def jump(self2):
         hits = pg.sprite.spritecollide(self2, all_platforms, False)
         if hits:
-            print("i've collided...")
+            # print("i've collided...")
             self2.vel.y = -40
     def update(self2):
         self2.acc = vec(0,0)
@@ -286,7 +354,7 @@ class Platform(Sprite): #creats a platform on the screen
 class Mob(Sprite): #class of mob
     def __init__(self, x, y, w, h, color):
         Sprite.__init__(self)
-        self.image = pg.Surface((w,h))
+        self.image = pg.Surface((15,25))
         self.color = color #fills color
         self.image.fill(color) #chooses random color for each mob from defined colors at the top
         self.rect = self.image.get_rect()
@@ -318,13 +386,27 @@ class Mob(Sprite): #class of mob
     #     self.acc = vec(1,1) # controls set velocity from very begining, will move at #m/s for x or y axis for which is changed
     #     self.Mob()
 
-
+'''
+# Text code for message from game
+for x in line_1:
+    print(x, end='')
+    sys.stdout.flush()
+    sleep(0.1)
+for x in line_2:
+    print(x, end='')
+    sys.stdout.flush()
+    sleep(0.1)
+for x in line_3:
+    print(x, end='')
+    sys.stdout.flush()
+    sleep(0.1)
+'''
 
 # init pygame and create a window
 pg.init()
 pg.mixer.init()
 screen = pg.display.set_mode((WIDTH, HEIGHT))
-pg.display.set_caption("Survive the zombies...")
+pg.display.set_caption("Space Survival...")
 clock = pg.time.Clock()
 
   
@@ -377,7 +459,7 @@ while running:
     if mobhits:
         POINTS += 20 # number of points added per each mob hit
         print(POINTS)
-        print("i've collided...with a mob")
+        # print("i've collided...with a mob")
         print(mobhits[0].color)
 
     # if mobhits:
@@ -390,7 +472,7 @@ while running:
         # if HEALTH == 0:
         #     break #if you reach a health total of 0, the game ends
     if mobhits:
-        print("ive struck a mob")
+        # print("ive struck a mob")
         m = Mob(randint(0,WIDTH), randint(0,HEIGHT), 25, 25, (colorbyte(),colorbyte(),colorbyte()))
         all_sprites.add(m)
         mobs.add(m)      # every time a player hits a mob, a new one spawns
@@ -407,7 +489,7 @@ while running:
     if mobhits:
         POINTS2 += 20
         print(POINTS2)
-        print("i've collided...with a mob")
+        # print("i've collided...with a mob")
         print(mobhits[0].color)
     
     # if mobhits:
@@ -437,9 +519,13 @@ while running:
     all_sprites.draw(screen)
     draw_text("POINTS p1: " + str(POINTS), 22, GREEN, WIDTH / 2, HEIGHT / 15) #draws text, which is made possible by defining draw_text
     draw_text("POINTS P2: " + str(POINTS2), 22, BLUE2, WIDTH / 2, HEIGHT / 10)
-    draw_text("GOAL OF GAME: " + str(GOAL), 22, RED, WIDTH / 2, HEIGHT / 50)
-    draw_text("WASD: " + str(CONTROLS), 22, GREEN, WIDTH / 8, HEIGHT / 50)
-    draw_text("IJKL: " + str(CONTROLS2), 22, BLUE2, WIDTH / 8, HEIGHT / 10)
+    # draw_text("GOAL OF GAME: " + str(GOAL), 22, RED, WIDTH / 2, HEIGHT / 50)
+    # draw_text("WASD: " + str(CONTROLS), 22, GREEN, WIDTH / 8, HEIGHT / 50)
+    # draw_text("IJKL: " + str(CONTROLS2), 22, BLUE2, WIDTH / 8, HEIGHT / 10)
+    # draw_text("hello:"+str(CONTROLS), 22, BLUE2, WIDTH / 8, HEIGHT / 10)
+
+
+
     # draw_text("HEALTH: " + str(HEALTH), 15, WHITE, WIDTH / 2, HEIGHT / 10)
 
     
@@ -454,7 +540,7 @@ while running:
     # draw_text("asdfasdfasdfasdfasdf: " + str(dt), 22, WHITE, WIDTH / 2, HEIGHT / 24)
 
     # buffer - after drawing everything, flip display
-    pg.display.flip() 
+    pg.display.flip()
 
 
 pg.quit()
