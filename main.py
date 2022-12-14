@@ -32,6 +32,8 @@ import pygame as pg1
 
 vec = pg.math.Vector2
 
+
+
 Computer_Science = os.path.dirname(__file__)
 # Final_Project_Images = os.path.join(Computer_Science, 'Final_Project_Images')
 
@@ -68,9 +70,9 @@ RED = (255, 0, 0)
 GREEN = (0, 255, 0)
 BLUE2 = (0, 255, 255)
 BLUE = (0, 0, 255)
-SAND = (139, 131, 120)
+YELLOW = (255,255,0)
 
-# start moving text
+# start screen text
 line_1 = "You've been abandoned by your country..."
 line_2 = "Your current mission is to survive and make it back home..."
 line_3 = "Good luck soldier. God Speed."
@@ -79,10 +81,12 @@ line_3 = "Good luck soldier. God Speed."
 background = pg.image.load('Space_Background.png')
 background_rect = background.get_rect()
 
-fighterJet = pg.image.load('Fighter_Jet.png')
-fighterJet_rect = background.get_rect()
-fighterJet.set_colorkey(BLACK)
-fighterJet = pg.transform.scale(fighterJet, (20, 20))
+FighterJet = pg.image.load('Fighter_Jet_PS1.png')
+FighterJet_rect = background.get_rect()
+FighterJet.set_colorkey(BLACK)
+FighterJet = pg.transform.scale(FighterJet, (5,5))
+
+
 
 # theBell = pg.image.load(path.join(img_folder, 'theBell.png'))
 # theBell_rect = background.get_rect()
@@ -168,13 +172,12 @@ def start_text():
         # if clock3.tick() == 15:
         #     pg1.quit()
 
- 
-
+    
 if __name__ == '__main__':
     pg1.init()
     start_text()
     pg1.quit()
-    
+
 '''
     
 
@@ -186,9 +189,6 @@ time.sleep(.4) #stops going through the code for .2 second. Gives second window 
 def colorbyte():
     return random.randint(0,255) #defined for add mob in line #233
 
-# # images
-# background = pg.image.load(path.join(Images, 'ocean'))
-# background_rect = background.get_rect()
 
 
 def draw_text(text, size, color, x, y):
@@ -203,11 +203,13 @@ def draw_text(text, size, color, x, y):
 class Player(Sprite): #player 1 settings
     def __init__(self):
         Sprite.__init__(self)
-        self.image = pg.Surface((20, 20))
-        # self.image.set_colorkey(BLACK)
-        self.image.fill(BLACK) #color of player
+        self.image = pg.Surface((1, 1))
+        # self.image.fill(BLACK) #color of player
+        # self.image.fill("ID1")
+        self.image = pg.image.load('Fighter_Jet_PS1.png')
+        # FighterJet.set_colorkey(BLACK)
         self.rect = self.image.get_rect()
-        self.rect.center = (WIDTH/2, HEIGHT/2)
+        # self.rect.center = (WIDTH/2, HEIGHT/2)
         self.pos = vec(WIDTH/2, HEIGHT/2) # controls where player spawns
         self.vel = vec(0,0) #controls player starting velocity on x and y axis
         self.acc = vec(0,0) #controls player acc. on x and y axis
@@ -241,12 +243,12 @@ class Player(Sprite): #player 1 settings
         self.rect.midbottom = self.pos
         
 
-
+'''
 class Player2(Sprite): #class of palyer 2, what adds player 2
     def __init__(self2):
         Sprite.__init__(self2)
         self2.image = pg.Surface((20, 20))
-        self2.image.fill(BLUE2)# color of player2
+        self2.image.fill(BLACK)# color of player2
         self2.rect = self2.image.get_rect()
         self2.rect.center = (WIDTH/2, HEIGHT/2) #
         self2.pos = vec(WIDTH/2, HEIGHT/4) # where player2 starts
@@ -271,6 +273,7 @@ class Player2(Sprite): #class of palyer 2, what adds player 2
         self2.acc = vec(0,0)
         self2.controls()
 
+
 # this entire block has the same code for player1
         
         # friction
@@ -282,6 +285,7 @@ class Player2(Sprite): #class of palyer 2, what adds player 2
         # self.rect.x += self.xvel
         # self.rect.y += self.yvel
         self2.rect.midbottom = self2.pos
+'''
 
 class Platform(Sprite): #creats a platform on the screen
     def __init__(self, x, y, w, h):
@@ -296,8 +300,9 @@ class Mob(Sprite): #class of mob
     def __init__(self, x, y, w, h, color):
         Sprite.__init__(self)
         self.image = pg.Surface((15,25))
+        self.image = pg.image.load('Asteroid_Rock_PS1.png')
         self.color = color #fills color
-        self.image.fill(color) #chooses random color for each mob from defined colors at the top
+        # self.image.fill(color) #chooses random color for each mob from defined colors at the top
         self.rect = self.image.get_rect()
         self.rect.x = x
         self.rect.y = y
@@ -359,14 +364,14 @@ mobs = pg.sprite.Group()
 
 # instantiate classes
 player = Player()
-player2 = Player2()
+# player2 = Player2()
 plat = Platform(WIDTH/1, HEIGHT/1, 1, 1)
 #plat1 = Platform(75, 300, 100, 35)
 # mob = Mob(25, 57, 25, 25)
 
 # add instances to groups
 all_sprites.add(player)
-all_sprites.add(player2)
+# all_sprites.add(player2)
 all_sprites.add(plat)
 #all_sprites.add(plat1)
 # all_sprites.add(mob)
@@ -412,26 +417,26 @@ while running:
         #     print ("YOU WIN!") #if you reach 90 points you win
         # if HEALTH == 0:
         #     break #if you reach a health total of 0, the game ends
-    if mobhits:
-        # print("ive struck a mob")
-        m = Mob(randint(0,WIDTH), randint(0,HEIGHT), 25, 25, (colorbyte(),colorbyte(),colorbyte()))
-        all_sprites.add(m)
-        mobs.add(m)      # every time a player hits a mob, a new one spawns
+    # if mobhits:
+    #     # print("ive struck a mob")
+    #     m = Mob(randint(0,WIDTH), randint(0,HEIGHT), 25, 25, (colorbyte(),colorbyte(),colorbyte()))
+    #     all_sprites.add(m)
+    #     mobs.add(m)      # every time a player hits a mob, a new one spawns
     # if POINTS == GOAL:
     #     break #if GOAL # is met, game ends and player wins
         
     # if mobhits:
     #     YAY += 1
     #     print ("yay") #yay is printed every time you hit a mob
-    hits = pg.sprite.spritecollide(player2, all_platforms, False)
-    # if hits:
-    #     print("i've collided...with a plat")
-    mobhits = pg.sprite.spritecollide(player2, mobs, True)
-    if mobhits:
-        POINTS2 += 20
-        print(POINTS2)
-        # print("i've collided...with a mob")
-        print(mobhits[0].color)
+    # hits = pg.sprite.spritecollide(player2, all_platforms, False)
+    # # if hits:
+    # #     print("i've collided...with a plat")
+    # mobhits = pg.sprite.spritecollide(player2, mobs, True)
+    # if mobhits:
+    #     POINTS2 += 20
+    #     print(POINTS2)
+    #     # print("i've collided...with a mob")
+    #     print(mobhits[0].color)
     
     # if mobhits:
     if mobhits:
@@ -456,12 +461,10 @@ while running:
 
     screen.fill(BLACK)
     screen.blit(background, background_rect)
-    screen.blit(fighterJet, fighterJet_rect)
-
     # draw all sprites
     all_sprites.draw(screen)
-    draw_text("POINTS p1: " + str(POINTS), 22, GREEN, WIDTH / 2, HEIGHT / 15) #draws text, which is made possible by defining draw_text
-    draw_text("POINTS P2: " + str(POINTS2), 22, BLUE2, WIDTH / 2, HEIGHT / 10)
+    draw_text("POINTS p1: " + str(POINTS), 22, BLUE2, WIDTH / 2, HEIGHT / 15) #draws text, which is made possible by defining draw_text
+    # draw_text("POINTS P2: " + str(POINTS2), 22, GREEN, WIDTH / 2, HEIGHT / 10)
     # draw_text("GOAL OF GAME: " + str(GOAL), 22, RED, WIDTH / 2, HEIGHT / 50)
     # draw_text("WASD: " + str(CONTROLS), 22, GREEN, WIDTH / 8, HEIGHT / 50)
     # draw_text("IJKL: " + str(CONTROLS2), 22, BLUE2, WIDTH / 8, HEIGHT / 10)
