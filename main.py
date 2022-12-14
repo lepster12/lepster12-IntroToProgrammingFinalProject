@@ -78,10 +78,11 @@ line_3 = "Good luck soldier. God Speed."
 # images
 background = pg.image.load('Space_Background.png')
 background_rect = background.get_rect()
-FighterJet = pg.image.load('Fighter_Jet.png')
-FighterJet_rect = background.get_rect()
-FighterJet.set_colorkey(SAND)
-FighterJet = pg.transform.scale(FighterJet, (10,10))
+
+fighterJet = pg.image.load('Fighter_Jet.png')
+fighterJet_rect = background.get_rect()
+fighterJet.set_colorkey(BLACK)
+fighterJet = pg.transform.scale(fighterJet, (20, 20))
 
 # theBell = pg.image.load(path.join(img_folder, 'theBell.png'))
 # theBell_rect = background.get_rect()
@@ -112,7 +113,7 @@ background = pg.image.load(path.join(Final_Project_Images, 'Zombie_Apoc_Backgrou
 background_rect = background.get_rect()
 '''
 
-
+'''
 def start_text():
     clock1 = pg1.time.Clock()
     clock2 = pg1.time.Clock()
@@ -167,12 +168,14 @@ def start_text():
         # if clock3.tick() == 15:
         #     pg1.quit()
 
-    
+ 
+
 if __name__ == '__main__':
     pg1.init()
     start_text()
     pg1.quit()
-
+    
+'''
     
 
 
@@ -201,9 +204,8 @@ class Player(Sprite): #player 1 settings
     def __init__(self):
         Sprite.__init__(self)
         self.image = pg.Surface((20, 20))
-        # self.image.set_colorkey(SAND)
-        # self.image.fill(GREEN) #color of player
-        # self.image.fill("ID1")
+        # self.image.set_colorkey(BLACK)
+        self.image.fill(BLACK) #color of player
         self.rect = self.image.get_rect()
         self.rect.center = (WIDTH/2, HEIGHT/2)
         self.pos = vec(WIDTH/2, HEIGHT/2) # controls where player spawns
@@ -454,6 +456,8 @@ while running:
 
     screen.fill(BLACK)
     screen.blit(background, background_rect)
+    screen.blit(fighterJet, fighterJet_rect)
+
     # draw all sprites
     all_sprites.draw(screen)
     draw_text("POINTS p1: " + str(POINTS), 22, GREEN, WIDTH / 2, HEIGHT / 15) #draws text, which is made possible by defining draw_text

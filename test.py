@@ -32,6 +32,8 @@ import pygame as pg1
 
 vec = pg.math.Vector2
 
+
+
 Computer_Science = os.path.dirname(__file__)
 # Final_Project_Images = os.path.join(Computer_Science, 'Final_Project_Images')
 
@@ -68,9 +70,9 @@ RED = (255, 0, 0)
 GREEN = (0, 255, 0)
 BLUE2 = (0, 255, 255)
 BLUE = (0, 0, 255)
-SAND = (139, 131, 120)
+YELLOW = (255,255,0)
 
-# start moving text
+# start screen text
 line_1 = "You've been abandoned by your country..."
 line_2 = "Your current mission is to survive and make it back home..."
 line_3 = "Good luck soldier. God Speed."
@@ -78,10 +80,13 @@ line_3 = "Good luck soldier. God Speed."
 # images
 background = pg.image.load('Space_Background.png')
 background_rect = background.get_rect()
+
 FighterJet = pg.image.load('Fighter_Jet.png')
 FighterJet_rect = background.get_rect()
-FighterJet.set_colorkey(SAND)
-FighterJet = pg.transform.scale(FighterJet, (10,10))
+FighterJet.set_colorkey(BLACK)
+FighterJet = pg.transform.scale(FighterJet, (50,50))
+
+
 
 # theBell = pg.image.load(path.join(img_folder, 'theBell.png'))
 # theBell_rect = background.get_rect()
@@ -112,7 +117,7 @@ background = pg.image.load(path.join(Final_Project_Images, 'Zombie_Apoc_Backgrou
 background_rect = background.get_rect()
 '''
 
-
+'''
 def start_text():
     clock1 = pg1.time.Clock()
     clock2 = pg1.time.Clock()
@@ -173,6 +178,7 @@ if __name__ == '__main__':
     start_text()
     pg1.quit()
 
+'''
     
 
 
@@ -183,9 +189,6 @@ time.sleep(.4) #stops going through the code for .2 second. Gives second window 
 def colorbyte():
     return random.randint(0,255) #defined for add mob in line #233
 
-# # images
-# background = pg.image.load(path.join(Images, 'ocean'))
-# background_rect = background.get_rect()
 
 
 def draw_text(text, size, color, x, y):
@@ -200,12 +203,12 @@ def draw_text(text, size, color, x, y):
 class Player(Sprite): #player 1 settings
     def __init__(self):
         Sprite.__init__(self)
-        self.image = pg.Surface((20, 20))
-        # self.image.set_colorkey(SAND)
-        # self.image.fill(GREEN) #color of player
+        self.image = pg.Surface((50, 50))
+        # self.image.fill(BLACK) #color of player
         # self.image.fill("ID1")
+        FighterJet.set_colorkey(BLACK)
         self.rect = self.image.get_rect()
-        self.rect.center = (WIDTH/2, HEIGHT/2)
+        # self.rect.center = (WIDTH/2, HEIGHT/2)
         self.pos = vec(WIDTH/2, HEIGHT/2) # controls where player spawns
         self.vel = vec(0,0) #controls player starting velocity on x and y axis
         self.acc = vec(0,0) #controls player acc. on x and y axis
@@ -244,7 +247,7 @@ class Player2(Sprite): #class of palyer 2, what adds player 2
     def __init__(self2):
         Sprite.__init__(self2)
         self2.image = pg.Surface((20, 20))
-        self2.image.fill(BLUE2)# color of player2
+        self2.image.fill(BLACK)# color of player2
         self2.rect = self2.image.get_rect()
         self2.rect.center = (WIDTH/2, HEIGHT/2) #
         self2.pos = vec(WIDTH/2, HEIGHT/4) # where player2 starts
