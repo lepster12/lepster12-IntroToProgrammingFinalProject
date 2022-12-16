@@ -178,8 +178,8 @@ class Mob(Sprite): #class of mob
         if self.rect.top > HEIGHT or self.rect.y < 0:
             self.speed2 *= -1.00 #this part creates it so that when it hits  in height section, it bounces off with # speed, the higher the number, the greater the bounce off speed is
 
-'''
-# Text code for message from game
+
+# Text code for message from game that is displayed in terminal
 for x in line_1:
     print(x, end='')
     sys.stdout.flush() # writes message out in a sentence
@@ -192,7 +192,7 @@ for x in line_3:
     print(x, end='')
     sys.stdout.flush()
     sleep(0.1) # this block of code displays a message in the terminal
-'''
+
 
 # init pygame and create a window
 pg.init() # initiates the pygame window
