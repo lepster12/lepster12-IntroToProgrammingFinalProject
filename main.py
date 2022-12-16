@@ -28,7 +28,7 @@ POINTS = 140
 # HEALTH = 10 #start with 10 health
 # YAY = 0 #start with no yay's
 
-# start screen text
+# Terminal text
 line_1 = "You've been abandoned by your country..."
 line_2 = "Your current mission is to survive and make it back home..."
 line_3 = "Good luck soldier. God Speed."
@@ -37,7 +37,7 @@ line_3 = "Good luck soldier. God Speed."
 background = pg.image.load('Space_Background.png')
 background_rect = background.get_rect()
 
-FighterJet = pg.image.load('Spaceship_red.png')
+FighterJet = pg.image.load('spaceship_red.png')
 # FighterJet_rect = background.get_rect()
 # FighterJet.set_colorkey(BLACK)
 # FighterJet = pg.transform.scale(FighterJet, (5,5))
@@ -45,10 +45,11 @@ FighterJet = pg.image.load('Spaceship_red.png')
 
 def start_text():
     
-    screen = pg1.display.set_mode((1350, 480))
-    font = pg1.font.Font(None, 64)
-    blue = pg1.Color('red') # sets color of text that is displayed:
+    screen = pg1.display.set_mode((800, 480)) #window dimensions
+    font = pg1.font.Font(None, 64) #size of font
+    blue = pg1.Color('lightblue') # sets color of text that is displayed:
     orig_surf = font.render("Welcome to Run From Asteroids.", False, blue) # my message
+    
     pg1.display.set_caption("Run From Asteroids...")
     txt_surf = orig_surf.copy()
     # This surface is used to adjust the alpha of the txt_surf.
@@ -109,7 +110,7 @@ class Player(Sprite): #player 1 settings
         self.image = pg.Surface((1, 1))
         # self.image.fill(BLACK) #color of player
         # self.image.fill("ID1")
-        self.image = pg.image.load('Spaceship_red.png') #loads this image as Player
+        self.image = pg.image.load('spaceship_red.png') #loads this image as Player
         # FighterJet.set_colorkey(BLACK)
         self.rect = self.image.get_rect()
         # self.rect.center = (WIDTH/2, HEIGHT/2)
@@ -265,7 +266,7 @@ while running:
     
     if wins == True:
         if POINTS == 0:
-            draw_text("You Died, Try Again.", 75, WHITE, WIDTH / 2, HEIGHT / 2) # this block of code makes it so that if life points = 0, then the text is drawn. This is made possible because of the if and when statement, when all_sprites.update() is above the else statement
+            draw_text("You Died, Try Again.", 75, WHITE, 350, 150) # this block of code makes it so that if life points = 0, then the text is drawn. This is made possible because of the if and when statement, when all_sprites.update() is above the else statement
             
 
     # buffer - after drawing everything, flip display
