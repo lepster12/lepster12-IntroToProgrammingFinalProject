@@ -1,9 +1,10 @@
 # content from kids can code: http://kidscancode.org/blog/
 # guides from w3schools python tutorial
+# import libraries and modules
+# tkinter loader screen https://www.pythontutorial.net/tkinter/tkinter-progressbar/
 # arrow keys for movement https://www.codespeedy.com/movement-of-object-when-arrow-keys-are-pressed-in-pygame/
 # figured out background image from copying from https://bcpsj-my.sharepoint.com/personal/ccozort_bcp_org/_layouts/15/onedrive.aspx?ga=1&id=%2Fpersonal%2Fccozort%5Fbcp%5Forg%2FDocuments%2FDocuments%2F000%5FIntro%20to%20Programming%2F2022%5FFall%2FCode%2Fper1game%2Fmain%5Fside%2Epy&parent=%2Fpersonal%2Fccozort%5Fbcp%5Forg%2FDocuments%2FDocuments%2F000%5FIntro%20to%20Programming%2F2022%5FFall%2FCode%2Fper1game
 # text code for welcome message in game https://stackoverflow.com/questions/52856030/how-to-fade-in-and-out-a-text-in-pygame
-# Billy Johnson - Help With adding images to players
 
 # GOALS
 # Create another class with Player 2
@@ -27,12 +28,37 @@ import time
 from time import sleep
 import sys
 import pygame as pg1
-from settings import *
+
 
 vec = pg.math.Vector2
 
-Computer_Science = os.path.dirname(__file__)
 
+
+Computer_Science = os.path.dirname(__file__)
+# Final_Project_Images = os.path.join(Computer_Science, 'Final_Project_Images')
+
+# # Setup asset folders here - images sounds etc.
+# Computer_Science = os.path.dirname(__file__)
+# Images = os.path.join(Computer_Science, 'images')
+
+# game settings 
+WIDTH = 700
+HEIGHT = 400
+FPS = 30
+
+# player settings
+PLAYER_FRIC = -0.1
+PLAYER_GRAV = .9875
+POINTS = 0 
+TIME = 10
+
+PLAYER2_FRIC = -0.1
+PLAYER2_GRAV =.9875
+POINTS2 = 0
+GOAL = 100 #set goal that when reached ends game; "player beats other player"
+CONTROLS = "Player1 Controls."
+CONTROLS2 = "Player2 Controls."
+ID1 = "Player1"
 
 # HEALTH = 10 #start with 10 health
 # YAY = 0 #start with no yay's
@@ -52,13 +78,44 @@ line_2 = "Your current mission is to survive and make it back home..."
 line_3 = "Good luck soldier. God Speed."
 
 # images
-# startingscreen = pg.image.load("star_background.png").convert() 
-
 background = pg.image.load('Space_Background.png')
 background_rect = background.get_rect()
-FighterJet = pg.image.load('Spaceship_red.png')
-start =  False
 
+FighterJet = pg.image.load('spaceship_red.png')
+FighterJet_rect = background.get_rect()
+FighterJet.set_colorkey(BLACK)
+FighterJet = pg.transform.scale(FighterJet, (5,5))
+
+
+
+# theBell = pg.image.load(path.join(img_folder, 'theBell.png'))
+# theBell_rect = background.get_rect()
+# theBell.set_colorkey(BLACK)
+# theBell = pg.transform.scale(theBell, (200,200))
+
+# self.image.set_colorkey(BLACK)
+
+# fighter_Jet = pg.image.load(path.join(Final_Project_Images, 'Fighter_Jet.png'))
+# fighter_Jet_rect = background.get_rect()
+# fighter_Jet.set_colorkey(SAND)
+# fighter_Jet = pg.transform.scale(fighter_Jet, (200,200))
+
+# self.image.set_colorkey(SAND)
+
+'''
+# game_folder = os.path.dirname(__file__)
+# img_folder = os.path.join(game_folder, 'images')
+Computer_Science = os.path.dirname(__file__)
+Final_Project_Images = os.path.join(Computer_Science, 'Final_Project_Images')
+
+# img_folder = os.path.join(game_folder, 'images')
+Final_Project_Images = os.path.join(Computer_Science, 'Final_Project_Images')
+
+# background = pg.image.load(path.join(img_folder, 'starfield.png'))
+# background_rect = background.get_rect()
+background = pg.image.load(path.join(Final_Project_Images, 'Zombie_Apoc_Background.png'))
+background_rect = background.get_rect()
+'''
 
 '''
 def start_text():
@@ -122,11 +179,17 @@ if __name__ == '__main__':
     pg1.quit()
 
 '''
+    
+
+
+
 
 time.sleep(.4) #stops going through the code for .2 second. Gives second window time to load up
 
 def colorbyte():
     return random.randint(0,255) #defined for add mob in line #233
+
+
 
 def draw_text(text, size, color, x, y):
         font_name = pg.font.match_font('arial')
@@ -143,7 +206,7 @@ class Player(Sprite): #player 1 settings
         self.image = pg.Surface((1, 1))
         # self.image.fill(BLACK) #color of player
         # self.image.fill("ID1")
-        self.image = pg.image.load('Spaceship_red.png')
+        self.image = pg.image.load('spaceship_red.png')
         # FighterJet.set_colorkey(BLACK)
         self.rect = self.image.get_rect()
         # self.rect.center = (WIDTH/2, HEIGHT/2)
@@ -163,6 +226,7 @@ class Player(Sprite): #player 1 settings
     def jump(self):
         hits = pg.sprite.spritecollide(self, all_platforms, False)
         if hits:
+            # print("i've collided...")
             self.vel.y = -20
     def update(self):
         self.acc = vec(0,0) # controls set velocity from very begining, will move at #m/s for x or y axis for which is changed
@@ -177,6 +241,51 @@ class Player(Sprite): #player 1 settings
         # self.rect.x += self.xvel
         # self.rect.y += self.yvel
         self.rect.midbottom = self.pos
+        
+
+'''
+class Player2(Sprite): #class of palyer 2, what adds player 2
+    def __init__(self2):
+        Sprite.__init__(self2)
+        self2.image = pg.Surface((20, 20))
+        self2.image.fill(BLACK)# color of player2
+        self2.rect = self2.image.get_rect()
+        self2.rect.center = (WIDTH/2, HEIGHT/2) #
+        self2.pos = vec(WIDTH/2, HEIGHT/4) # where player2 starts
+        self2.vel = vec(0,0)
+        self2.acc = vec(0,0)
+    def controls(self2):
+        keys = pg.key.get_pressed()
+        if keys[pg.K_LEFT]:
+            self2.acc.x = -3
+        if keys[pg.K_RIGHT]:
+            self2.acc.x = 3
+        if keys[pg.K_UP]:
+            self2.acc.y = -3
+        if keys[pg.K_DOWN]:
+            self2.acc.y = 3
+    def jump(self2):
+        hits = pg.sprite.spritecollide(self2, all_platforms, False)
+        if hits:
+            # print("i've collided...")
+            self2.vel.y = -40
+    def update(self2):
+        self2.acc = vec(0,0)
+        self2.controls()
+
+
+# this entire block has the same code for player1
+        
+        # friction
+        self2.acc += self2.vel * PLAYER2_FRIC
+        # self.acc.x += self.vel.x * PLAYER_FRIC
+        # self.acc.y += self.vel.y * PLAYER_FRIC
+        self2.vel += self2.acc
+        self2.pos += self2.vel + 0.5 * self2.acc
+        # self.rect.x += self.xvel
+        # self.rect.y += self.yvel
+        self2.rect.midbottom = self2.pos
+'''
 
 class Platform(Sprite): #creats a platform on the screen
     def __init__(self, x, y, w, h):
@@ -207,6 +316,21 @@ class Mob(Sprite): #class of mob
             self.speed *= -1.00 #this part creates it so that when it hits  in width section, it bounces off with # speed, the higher the number, the greater the bounce off speed is
         if self.rect.top > HEIGHT or self.rect.y < 0:
             self.speed2 *= -1.00 #this part creates it so that when it hits  in height section, it bounces off with # speed, the higher the number, the greater the bounce off speed is
+        # if self.pos.x > WIDTH:
+        #     self.pos.x = 0
+        # if self.pos.x < 0:
+        #     self.pos.x = WIDTH
+
+        # if self.pos.y > HEIGHT:
+        #     self.pos.x = 0
+        # if self.pos.x < 0:
+        #     self.pos.y = HEIGHT
+        
+        # self.rect.x = self.pos.x
+        # self.rect.y = self.pos.y
+        # def update(self):
+    #     self.acc = vec(1,1) # controls set velocity from very begining, will move at #m/s for x or y axis for which is changed
+    #     self.Mob()
 
 '''
 # Text code for message from game
@@ -247,8 +371,12 @@ plat = Platform(WIDTH/1, HEIGHT/1, 1, 1)
 
 # add instances to groups
 all_sprites.add(player)
+# all_sprites.add(player2)
 all_sprites.add(plat)
+#all_sprites.add(plat1)
+# all_sprites.add(mob)
 all_platforms.add(plat)
+#all_platforms.add(plat1)
 
 for i in range(10): # number of mods that are spawned with the game when it opens
     # instantiate mob class repeatedly
@@ -271,22 +399,56 @@ while running:
     ############ Update ##############
     # update all sprites
     hits = pg.sprite.spritecollide(player, all_platforms, False)
+    # if hits:
+    #     print("i've collided...with a plat")
     mobhits = pg.sprite.spritecollide(player, mobs, True) 
+    if mobhits:
+        POINTS += 20 # number of points added per each mob hit
+        print(POINTS)
+        # print("i've collided...with a mob")
+        print(mobhits[0].color)
+
     # if mobhits:
-    #     POINTS += 20 # number of points added per each mob hit
-    #     print(POINTS)
-    #     print(mobhits[0].color)
+        # HEALTH -= 1
+        # print ("You gained a health point")    # touching a mob takes a health point
+        # if HEALTH == 5:
+        #     print ("BE CAREFUL, YOU ONLY HAVE 5 HITPOINTS LEFT") # if you red 5 in health, the saying is printed
+        # if POINTS == 90:
+        #     print ("YOU WIN!") #if you reach 90 points you win
+        # if HEALTH == 0:
+        #     break #if you reach a health total of 0, the game ends
     # if mobhits:
+    #     # print("ive struck a mob")
     #     m = Mob(randint(0,WIDTH), randint(0,HEIGHT), 25, 25, (colorbyte(),colorbyte(),colorbyte()))
     #     all_sprites.add(m)
-    #     mobs.add(m)
-    # if POINTS2 <= GOAL and POINTS <= GOAL:
-    #     all_sprites.update()
-    # else:
-    #     wins = True
+    #     mobs.add(m)      # every time a player hits a mob, a new one spawns
+    # if POINTS == GOAL:
+    #     break #if GOAL # is met, game ends and player wins
+        
     # if mobhits:
-    #     break
-    all_sprites.update()
+    #     YAY += 1
+    #     print ("yay") #yay is printed every time you hit a mob
+    # hits = pg.sprite.spritecollide(player2, all_platforms, False)
+    # # if hits:
+    # #     print("i've collided...with a plat")
+    # mobhits = pg.sprite.spritecollide(player2, mobs, True)
+    # if mobhits:
+    #     POINTS2 += 20
+    #     print(POINTS2)
+    #     # print("i've collided...with a mob")
+    #     print(mobhits[0].color)
+    
+    # if mobhits:
+    if mobhits:
+        m = Mob(randint(0,WIDTH), randint(0,HEIGHT), 25, 25, (colorbyte(),colorbyte(),colorbyte()))
+        all_sprites.add(m)
+        mobs.add(m)
+    if POINTS2 <= GOAL and POINTS <= GOAL:
+        all_sprites.update()
+    else:
+        wins = True
+
+        
     
         
  #all same code as above player rules and game rules
@@ -302,11 +464,24 @@ while running:
     # draw all sprites
     all_sprites.draw(screen)
     draw_text("POINTS p1: " + str(POINTS), 22, BLUE2, WIDTH / 2, HEIGHT / 15) #draws text, which is made possible by defining draw_text
+    # draw_text("POINTS P2: " + str(POINTS2), 22, GREEN, WIDTH / 2, HEIGHT / 10)
+    # draw_text("GOAL OF GAME: " + str(GOAL), 22, RED, WIDTH / 2, HEIGHT / 50)
+    # draw_text("WASD: " + str(CONTROLS), 22, GREEN, WIDTH / 8, HEIGHT / 50)
+    # draw_text("IJKL: " + str(CONTROLS2), 22, BLUE2, WIDTH / 8, HEIGHT / 10)
+    # draw_text("hello:"+str(CONTROLS), 22, BLUE2, WIDTH / 8, HEIGHT / 10)
+
+
+
+    # draw_text("HEALTH: " + str(HEALTH), 15, WHITE, WIDTH / 2, HEIGHT / 10)
+
+    
     if wins == True:
-        if POINTS2 >= GOAL:
-            draw_text("P2 WINS", 144, WHITE, WIDTH / 2, HEIGHT / 2)
         if POINTS >= GOAL:
             draw_text("P1 WINS", 144, WHITE, WIDTH / 2, HEIGHT / 2)
+    
+
+    # draw_text("FPS: " + str(dt), 22, WHITE, WIDTH / 2, HEIGHT / 24)
+    # draw_text("asdfasdfasdfasdfasdf: " + str(dt), 22, WHITE, WIDTH / 2, HEIGHT / 24)
 
     # buffer - after drawing everything, flip display
     pg.display.flip()
