@@ -6,17 +6,6 @@
 # figured out background image from copying from https://bcpsj-my.sharepoint.com/personal/ccozort_bcp_org/_layouts/15/onedrive.aspx?ga=1&id=%2Fpersonal%2Fccozort%5Fbcp%5Forg%2FDocuments%2FDocuments%2F000%5FIntro%20to%20Programming%2F2022%5FFall%2FCode%2Fper1game%2Fmain%5Fside%2Epy&parent=%2Fpersonal%2Fccozort%5Fbcp%5Forg%2FDocuments%2FDocuments%2F000%5FIntro%20to%20Programming%2F2022%5FFall%2FCode%2Fper1game
 # text code for welcome message in game https://stackoverflow.com/questions/52856030/how-to-fade-in-and-out-a-text-in-pygame
 
-# GOALS
-# Create another class with Player 2
-# increase playing ground with game settings
-# add code where when each player hits a mob, another one spawns
-# add competition goal, first to hit #points wins
-# add ID to player, "P1" and "P2" to respective player
-
-# Final Project
-# add a starting screen
-# add a sounds for each player, so that you can differentiate who hits a mob
-
 from platform import platform
 import pygame as pg
 from pygame.sprite import Sprite
@@ -161,7 +150,7 @@ class Mob(Sprite): #class of mob
     def __init__(self, x, y, w, h, color):
         Sprite.__init__(self)
         self.image = pg.Surface((15,25))
-        self.image = pg.image.load('Asteroid_Rock_PS1.png')
+        self.image = pg.image.load('Asteroid_Rock_PS1.png') # calls and displays image for asteroid
         self.color = color #fills color
         # self.image.fill(color) #chooses random color for each mob from defined colors at the top
         self.rect = self.image.get_rect()
